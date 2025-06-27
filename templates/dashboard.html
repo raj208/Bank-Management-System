@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bank Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f8; margin: 0; }
+        .dashboard-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 32px;
+        }
+        h1 { color: #2d3e50; }
+        .welcome { font-size: 1.2em; margin-bottom: 24px; }
+        .account-summary {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 32px;
+        }
+        .summary-label { color: #1976d2; font-weight: bold; }
+        .actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .action-btn {
+            background: #1976d2;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.2s;
+        }
+        .action-btn:hover { background: #1565c0; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Welcome {{request.user.username}} to Your Dashboard!</h1>
+        <div class="welcome">
+            Hello, <strong>{{ user.username }}</strong>! Your account was created successfully.
+        </div>
+        <div class="account-summary">
+            <div><span class="summary-label">Account Number:</span> {{ account.number }}</div>
+            <div><span class="summary-label">Balance:</span> ${{ account.balance }}</div>
+            <div><span class="summary-label">Account Type:</span> {{ account.type }}</div>
+        </div>
+        <div class="actions">
+            <button class="action-btn" onclick="location.href='/deposit'">Deposit Funds</button>
+            <button class="action-btn" onclick="location.href='/withdraw'">Withdraw Funds</button>
+            <button class="action-btn" onclick="location.href='/transactions'">View Transactions</button>
+            <!-- <button class="action-btn" onclick="location.href='{% url 'logout' %}'">Logout</button> -->
+            <a href="{% url 'logout' %}" class="action-btn" style="text-decoration:none; display:inline-block; text-align:center;">Logout</a>
+        </div>
+    </div>
+</body>
+</html></html>
