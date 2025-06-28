@@ -43,10 +43,18 @@
 </head>
 <body>
     <div class="dashboard-container">
+        
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert" style="background: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; padding: 12px 20px; border-radius: 4px; margin-bottom: 16px; font-size: 1.05em;">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
         <h1>Welcome {{request.user.username}}</h1>
         <div class="account-summary">
             <div><span class="summary-label">Account Number:</span> {{ account.number }}</div>
-            <div><span class="summary-label">Balance:</span> ${{ account.balance }}</div>
+            <div><span class="summary-label">Balance:</span> Rs {{ balance }}</div>
             <div><span class="summary-label">Account Type:</span> {{ account.type }}</div>
         </div>
         <div class="actions">
