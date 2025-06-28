@@ -1,18 +1,157 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <title>Login | Bank Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .login-container {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            margin-bottom: 25px;
+            color: #003366;
+        }
+
+        form {
+            text-align: left;
+        }
+
+        form p {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        button {
+            width: 100%;
+            background-color: #00509e;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #003f7f;
+        }
+
+        .error-message {
+            color: #d8000c;
+            background-color: #ffd2d2;
+            border: 1px solid #d8000c;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .register-link {
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+
+        .register-link a {
+            color: #00509e;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .popup-message {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #28a745;
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 6px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            animation: slideDown 0.4s ease-out;
+        }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+        
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
 </head>
 <body>
-    <h2>Login</h2>
-    {% if form.errors %}
-        <p style="color:red;">Invalid username or password</p>
-    {% endif %}
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
-    <p>Don't have an account? <a href="{% url 'signup' %}">Register here</a></p>
+    <div class="login-container">
+        <h2>Login</h2>
+
+        {% if messages %}
+        <div id="popup-message" class="popup-message">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+        <script>
+            // Show popup for 3 seconds then fade
+            setTimeout(() => {
+                const popup = document.getElementById('popup-message');
+                if (popup) popup.style.display = 'none';
+            }, 3000);
+        </script>
+        {% endif %}
+
+
+        {% if form.errors %}
+            <div class="error-message">
+                Invalid username or password
+            </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+        </form>
+
+        <div class="register-link">
+            Don't have an account? <a href="{% url 'signup' %}">Register here</a>
+        </div>
+    </div>
 </body>
 </html>
