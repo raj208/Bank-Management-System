@@ -9,4 +9,6 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name = 'dashboard'),
     path('logout/', LoginView.as_view(), name = 'logout'),
     path('login/', LoginView.as_view(), name = 'login'),
+    path('deposit/', views.deposit_view, name='deposit'),
+    path('withdraw/', views.withdraw_view, name='withdraw'),
 ]

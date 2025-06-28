@@ -5,3 +5,22 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     is_customer = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+
+
+class Account(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+
+    def deposit(self, amount):
+        if amount > 0:
+            self.balance += amount
+            self.save()
+            return True
+        return False
+
+    def withdraw(self, amount):
+        if amount > 0 and self.balance >= amount:
+            self.balance -= amount
+            self.save()
+            return True
+        return False
