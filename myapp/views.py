@@ -61,3 +61,15 @@ def withdraw_view(request):
             messages.error(request, 'Insufficient balance.')
         return redirect('dashboard')
     return render(request, 'withdraw.html')
+
+
+# from django.contrib.auth.decorators import user_passes_test
+
+# def is_admin(user):
+#     return user.is_authenticated and user.is_admin  # based on your custom User model
+
+# @login_required
+# @user_passes_test(is_admin)
+# def all_users(request):
+#     users = User.objects.all()
+#     return render(request, 'all_users.html', {'users': users})

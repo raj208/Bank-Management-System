@@ -1,0 +1,26 @@
+<!-- templates/all_users.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Users</title>
+</head>
+<body>
+    <h1>All Registered Users</h1>
+    <table border="1">
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Date Joined</th>
+            <th>Is Admin</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.date_joined }}</td>
+            <td>{{ user.is_admin }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

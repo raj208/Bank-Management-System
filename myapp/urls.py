@@ -11,4 +11,6 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name = 'login'),
     path('deposit/', views.deposit_view, name='deposit'),
     path('withdraw/', views.withdraw_view, name='withdraw'),
+    # path('admin/users/', views.all_users, name='all_users'),
+    # path('manage/users/', views.all_users, name='all_users'),
 ]
