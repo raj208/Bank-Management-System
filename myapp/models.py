@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 # Create your models here.
 
 class User(AbstractUser):
@@ -10,6 +13,10 @@ class User(AbstractUser):
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    is_frozen = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user.username}"
 
     def deposit(self, amount):
         if amount > 0:
@@ -24,3 +31,9 @@ class Account(models.Model):
             self.save()
             return True
         return False
+
+
+@receiver(post_save, sender=User)
+def create_user_account(sender, instance, created, **kwargs):
+    if created:
+        Account.objects.create(user=instance)

@@ -40,18 +40,30 @@ def signup(request):
 
 @login_required
 def deposit_view(request):
+    account = Account.objects.get(user=request.user)
+
+    if account.is_frozen:
+        messages.error(request, "Your account is frozen. Deposits are disabled.")
+        return redirect('dashboard')
+
+
     if request.method == 'POST':
         amount = Decimal(request.POST.get('amount'))
         account = Account.objects.get(user=request.user)
         account.deposit(amount)
         messages.success(request, f'Successfully deposited ${amount:.2f}')
-        return redirect('dashboard')  # change to your destination
+        return redirect('dashboard')  
     return render(request, 'deposit.html')
     # return render(request, 'deposit.html')
 
 
 @login_required
 def withdraw_view(request):
+    account = Account.objects.get(user=request.user)
+    if account.is_frozen:
+        messages.error(request, "Your account is frozen. Withdrawals are disabled.")
+        return redirect('dashboard')
+
     if request.method == 'POST':
         amount = Decimal(request.POST.get('amount'))
         account = Account.objects.get(user=request.user)
