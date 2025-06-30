@@ -20,7 +20,7 @@ class CustomUserAdmin(BaseUserAdmin):
 
 class AccountAdmin(admin.ModelAdmin):
     list_display = ['user', 'balance', 'is_frozen']
-    list_editable = ['is_frozen']  # allows inline freezing/unfreezing
+    list_editable = ['is_frozen']  
 
 
 
