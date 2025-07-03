@@ -1,0 +1,10 @@
+<!-- templates/send_money.html -->
+<h2>Send Money</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Send</button>
+</form>
+{% for message in messages %}
+  <p>{{ message }}</p>
+{% endfor %}

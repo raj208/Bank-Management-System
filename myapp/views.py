@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, SendMoneyForm
 from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Account
+from .models import Account, Transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
@@ -85,3 +85,43 @@ def withdraw_view(request):
 # def all_users(request):
 #     users = User.objects.all()
 #     return render(request, 'all_users.html', {'users': users})
+
+from django.contrib.auth import get_user_model
+User = get_user_model()
+@login_required
+def send_money(request):
+    if request.method == 'POST':
+        form = SendMoneyForm(request.POST)
+        if form.is_valid():
+            receiver_username = form.cleaned_data['receiver_username']
+            amount = form.cleaned_data['amount']
+
+            try:
+                receiver_user = User.objects.get(username=receiver_username)
+                sender_account = Account.objects.get(user=request.user)
+                receiver_account = Account.objects.get(user=receiver_user)
+
+                if sender_account.balance < amount:
+                    messages.error(request, "Insufficient balance.")
+                elif receiver_user == request.user:
+                    messages.error(request, "You cannot send money to yourself.")
+                else:
+                    # Perform transfer
+                    sender_account.balance -= amount
+                    receiver_account.balance += amount
+                    sender_account.save()
+                    receiver_account.save()
+
+                    # Record transaction
+                    Transaction.objects.create(
+                        sender=request.user,
+                        receiver=receiver_user,
+                        amount=amount
+                    )
+                    messages.success(request, f"Sent ₹{amount} to {receiver_username}.")
+                    return redirect('dashboard')  # or wherever your main page is
+            except User.DoesNotExist:
+                messages.error(request, "Recipient username does not exist.")
+    else:
+        form = SendMoneyForm()
+    return render(request, 'send_money.html', {'form': form})
