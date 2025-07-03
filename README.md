@@ -30,3 +30,12 @@ This is a web-based Bank Management System built with Django. It demonstrates fu
 - **Authentication**: Django’s built-in auth system
 
 ---
+
+## ▶️ Features to be added
+
+- Profile Updation
+- Emails/SMS 
+- Closing Account
+- Chatbot Assistant
+
+
