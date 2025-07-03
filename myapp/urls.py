@@ -14,4 +14,5 @@ urlpatterns = [
     # path('admin/users/', views.all_users, name='all_users'),
     # path('manage/users/', views.all_users, name='all_users'),
     path('send-money/', views.send_money, name='send_money'),
+    path('transactions/', views.transaction_history, name='transaction_history'),
 ]

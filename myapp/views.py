@@ -125,3 +125,12 @@ def send_money(request):
     else:
         form = SendMoneyForm()
     return render(request, 'send_money.html', {'form': form})
+
+@login_required
+def transaction_history(request):
+    user = request.user
+    sent = Transaction.objects.filter(sender=user)
+    received = Transaction.objects.filter(receiver=user)
+    transactions = sent.union(received).order_by('-timestamp')
+
+    return render(request, 'transaction_history.html', {'transactions': transactions})
